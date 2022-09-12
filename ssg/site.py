@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 
-from ssg import extensions
+from ssg import extensions, hooks
 
 
 class Site:
@@ -36,6 +36,9 @@ class Site:
                 self.create_dir(path)
             elif path.is_file():
                 self.run_parser(path)
+
+    load_bundled()
+    hooks.event("collect_files", self.source, self.parsers)
 
     @staticmethod
     def error(message):
